@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Github User Searcher</string>
+    <string name="input_keywords_hint">Please input keywords to find Github users…</string>
 </resources>
