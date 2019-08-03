@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 fun String?.parcel(): String = this ?: ""
 
@@ -22,6 +24,10 @@ fun Long?.parcel(): Long = this ?: 0
 fun Int?.parcel(): Int = this ?: 0
 
 fun Boolean?.parcel(): Boolean = this ?: false
+
+fun Disposable.addTo(compositeDisposable: CompositeDisposable) {
+    compositeDisposable.add(this)
+}
 
 fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
     setSupportActionBar(findViewById(toolbarId))
