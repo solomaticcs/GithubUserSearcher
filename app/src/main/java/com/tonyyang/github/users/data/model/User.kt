@@ -1,4 +1,4 @@
-package com.tonyyang.interview.m17pretest.data.model
+package com.tonyyang.github.users.data.model
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,8 +1,7 @@
-package com.tonyyang.interview.m17pretest.data
+package com.tonyyang.github.users.data
 
-import com.tonyyang.interview.m17pretest.api.GithubServerApi
-import com.tonyyang.interview.m17pretest.api.UserSearchResponse
-import com.tonyyang.interview.m17pretest.data.model.User
+import com.tonyyang.github.users.api.GithubServerApi
+import com.tonyyang.github.users.api.UserSearchResponse
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.Retrofit

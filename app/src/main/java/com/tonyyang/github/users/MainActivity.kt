@@ -2,9 +2,7 @@ package com.tonyyang.github.users
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import com.tonyyang.github.users.MainFragment
-
+import com.tonyyang.github.users.ui.GithubUserFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewFragment() {
         supportFragmentManager.findFragmentById(R.id.contentFrame)
-                ?: replaceFragmentInActivity(MainFragment.newInstance(), R.id.contentFrame)
+                ?: replaceFragmentInActivity(GithubUserFragment.newInstance(), R.id.contentFrame)
     }
 }

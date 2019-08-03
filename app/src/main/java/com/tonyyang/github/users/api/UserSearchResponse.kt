@@ -1,7 +1,7 @@
-package com.tonyyang.interview.m17pretest.api
+package com.tonyyang.github.users.api
 
 import com.google.gson.annotations.SerializedName
-import com.tonyyang.interview.m17pretest.data.model.User
+import com.tonyyang.github.users.data.model.User
 
 
 class UserSearchResponse {

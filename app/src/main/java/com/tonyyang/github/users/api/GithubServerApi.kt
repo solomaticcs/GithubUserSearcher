@@ -1,4 +1,4 @@
-package com.tonyyang.interview.m17pretest.api
+package com.tonyyang.github.users.api
 
 import io.reactivex.Single
 import retrofit2.Response
