@@ -2,5 +2,7 @@
     <string name="app_name">Github User Searcher</string>
     <string name="enter_keywords_hint">Enter keywords to find Github users…</string>
     <string name="user_list_empty">User list is empty…</string>
-    <string name="search_users_successful">Found %d users.</string>
+    <string name="network_state_loading">Loading…</string>
+    <string name="network_state_loaded">Load completed.</string>
+    <string name="network_state_error">Occur error!</string>
 </resources>

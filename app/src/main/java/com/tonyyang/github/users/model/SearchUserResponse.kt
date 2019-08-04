@@ -1,10 +1,8 @@
-package com.tonyyang.github.users.api
+package com.tonyyang.github.users.model
 
 import com.google.gson.annotations.SerializedName
-import com.tonyyang.github.users.data.model.User
 
-
-class UserSearchResponse {
+class SearchUserResponse {
     @SerializedName("total_count")
     val totalCount: Int = 0
 
@@ -12,6 +10,6 @@ class UserSearchResponse {
     var items: List<User> = mutableListOf()
 
     override fun toString(): String {
-        return "UserSearchResponse(totalCount=$totalCount, items=$items)"
+        return "SearchUserResponse(totalCount=$totalCount, items=$items)"
     }
 }
