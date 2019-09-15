@@ -7,14 +7,17 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import com.tonyyang.github.users.R
 import com.tonyyang.github.users.model.User
+import com.tonyyang.github.users.repository.NetworkState
 import kotlinx.android.synthetic.main.user_list_item.view.*
 
 
 class GithubUserAdapter(private val context: Context) :
         PagedListAdapter<User, GithubUserAdapter.UserViewHolder>(UserDiffUtils()) {
+
+    private var networkState: NetworkState? = null
 
     private val mInflater by lazy {
         LayoutInflater.from(context)
@@ -22,7 +25,7 @@ class GithubUserAdapter(private val context: Context) :
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(user: User) {
-            Picasso.get().load(user.avatarUrl).into(itemView.civ_user_avatar)
+            Glide.with(itemView.context).load(user.avatarUrl).into(itemView.civ_user_avatar)
             itemView.tv_user_login_id.text = user.login
         }
     }
@@ -33,6 +36,24 @@ class GithubUserAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
+        }
+    }
+
+    private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
+
+    fun setNetworkState(newNetworkState: NetworkState?) {
+        val previousState = this.networkState
+        val hadExtraRow = hasExtraRow()
+        this.networkState = newNetworkState
+        val hasExtraRow = hasExtraRow()
+        if (hadExtraRow != hasExtraRow) {
+            if (hadExtraRow) {
+                notifyItemRemoved(super.getItemCount())
+            } else {
+                notifyItemInserted(super.getItemCount())
+            }
+        } else if (hasExtraRow && previousState != newNetworkState) {
+            notifyItemChanged(itemCount - 1)
         }
     }
 

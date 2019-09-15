@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +36,12 @@ class GithubUserFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initAdapter()
+        initSwipeToRefresh()
+        initSearch()
+    }
+
+    private fun initAdapter() {
         rv_user_list.apply {
             setHasFixedSize(true)
             adapter = mGithubUserAdapter
@@ -48,37 +53,45 @@ class GithubUserFragment : Fragment() {
             )
         }
 
-        et_keyword.setOnEditorActionListener { v, actionId, _ ->
+        mUserViewModel.userPagedList.observe(this, Observer {
+            mGithubUserAdapter.submitList(it)
+        })
+
+        mUserViewModel.networkState.observe(this, Observer {
+            mGithubUserAdapter.setNetworkState(it)
+        })
+    }
+
+    private fun initSwipeToRefresh() {
+        mUserViewModel.refreshState.observe(this, Observer {
+            swipe_refresh.isRefreshing = it == NetworkState.LOADING
+            if (it != NetworkState.LOADING) {
+                showEmptyView(if (mUserViewModel.listIsEmpty()) View.VISIBLE else View.GONE)
+            }
+        })
+        swipe_refresh.setOnRefreshListener {
+            mUserViewModel.refresh()
+        }
+    }
+
+    private fun initSearch() {
+        et_keyword.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                searchUserByKeyword(v.text.toString())
+                updatedGithubUsersFromInput()
             }
             false
         }
     }
 
-    private fun searchUserByKeyword(query: String) {
-        mUserViewModel.replaceSubscription(this, query)
-        startUserObserver()
-    }
-
-    private fun startUserObserver() {
-        mUserViewModel.userPagedList?.observe(this, Observer {
-            mGithubUserAdapter.submitList(it)
-        })
-        mUserViewModel.networkState?.observe(this, Observer {
-            Toast.makeText(activity, it.message.msg, Toast.LENGTH_SHORT).show()
-            if (it == NetworkState.LOADING) {
-                showProgress(View.VISIBLE)
-            } else {
-                showProgress(View.GONE)
-                showEmptyView(if (mUserViewModel.listIsEmpty()) View.VISIBLE else View.GONE)
+    private fun updatedGithubUsersFromInput() {
+        et_keyword.text.trim().toString().let {
+            if (it.isNotEmpty()) {
+                if (mUserViewModel.showGithubUser(it)) {
+                    rv_user_list.scrollToPosition(0)
+                    mGithubUserAdapter.submitList(null)
+                }
             }
-        })
-    }
-
-    private fun showProgress(visibility: Int) {
-        progress_background.visibility = visibility
-        progress_circle.visibility = visibility
+        }
     }
 
     private fun showEmptyView(visibility: Int) {

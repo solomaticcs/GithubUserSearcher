@@ -1,35 +1,36 @@
 package com.tonyyang.github.users.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.paging.Config
+import androidx.paging.toLiveData
 import com.tonyyang.github.users.api.GithubService
 import com.tonyyang.github.users.model.User
-import com.tonyyang.github.users.repository.UserDataSource.Companion.PER_PAGE
-import io.reactivex.disposables.CompositeDisposable
+import com.tonyyang.github.users.repository.UserDataSource.Companion.PER_PAGE_SIZE
 
 
 class UserPagedListRepository(private val apiService: GithubService) {
-    private lateinit var userDataSourceFactory: UserDataSourceFactory
 
-    fun fetchLiveUserPagedList(query: String,
-                               compositeDisposable: CompositeDisposable)
-            : LiveData<PagedList<User>> {
-        userDataSourceFactory = UserDataSourceFactory(apiService, query, compositeDisposable)
-
-        val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
-                .setPrefetchDistance(4)
-                .setPageSize(PER_PAGE)
-                .build()
-
-        return LivePagedListBuilder(userDataSourceFactory, config).build()
-    }
-
-    fun getNetworkState(): LiveData<NetworkState> {
-        return Transformations.switchMap<UserDataSource, NetworkState>(
-                userDataSourceFactory.usersLiveData, UserDataSource::networkState
+    fun postsOfGithubUsers(query: String): Listing<User> {
+        val sourceFactory = UserDataSourceFactory(apiService, query)
+        val livePagedList = sourceFactory.toLiveData(
+                config = Config(
+                        pageSize = PER_PAGE_SIZE,
+                        enablePlaceholders = false,
+                        prefetchDistance = 4
+                )
+        )
+        return Listing(
+                pagedList = livePagedList,
+                networkState = Transformations.switchMap(sourceFactory.usersLiveData) {
+                    it.networkState
+                },
+                refreshState = Transformations.switchMap(sourceFactory.usersLiveData) {
+                    it.initialLoad
+                },
+                refresh = {
+                    sourceFactory.usersLiveData.value?.invalidate()
+                }
         )
     }
+
 }
