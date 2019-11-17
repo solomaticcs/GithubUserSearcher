@@ -21,7 +21,6 @@ class UserViewModel(
     }
 
     var userPagedList: LiveData<PagedList<User>> = switchMap(repoResult) { it.pagedList }
-    var networkState: LiveData<NetworkState> = switchMap(repoResult) { it.networkState }
     var refreshState: LiveData<NetworkState> = switchMap(repoResult) { it.refreshState }
 
     fun listIsEmpty(): Boolean {

@@ -21,9 +21,6 @@ class UserPagedListRepository(private val apiService: GithubService) {
         )
         return Listing(
                 pagedList = livePagedList,
-                networkState = Transformations.switchMap(sourceFactory.usersLiveData) {
-                    it.networkState
-                },
                 refreshState = Transformations.switchMap(sourceFactory.usersLiveData) {
                     it.initialLoad
                 },

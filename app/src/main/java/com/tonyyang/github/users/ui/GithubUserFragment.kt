@@ -56,10 +56,6 @@ class GithubUserFragment : Fragment() {
         mUserViewModel.userPagedList.observe(this, Observer {
             mGithubUserAdapter.submitList(it)
         })
-
-        mUserViewModel.networkState.observe(this, Observer {
-            mGithubUserAdapter.setNetworkState(it)
-        })
     }
 
     private fun initSwipeToRefresh() {
