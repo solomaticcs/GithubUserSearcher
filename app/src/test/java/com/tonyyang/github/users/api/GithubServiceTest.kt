@@ -2,7 +2,7 @@ package com.tonyyang.github.users.api
 
 import com.tonyyang.github.users.ExecuteOnceObserver
 import com.tonyyang.github.users.model.User
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

@@ -6,8 +6,8 @@ import androidx.paging.PageKeyedDataSource
 import com.tonyyang.github.users.ExecuteOnceObserver
 import com.tonyyang.github.users.api.GithubService
 import com.tonyyang.github.users.model.User
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class UserDataSource(
         private val githubService: GithubService,

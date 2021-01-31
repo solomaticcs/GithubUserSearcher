@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tonyyang.github.users.R
 import com.tonyyang.github.users.api.GithubService
@@ -53,18 +52,18 @@ class GithubUserFragment : Fragment() {
             )
         }
 
-        mUserViewModel.userPagedList.observe(this, Observer {
+        mUserViewModel.userPagedList.observe(viewLifecycleOwner) {
             mGithubUserAdapter.submitList(it)
-        })
+        }
     }
 
     private fun initSwipeToRefresh() {
-        mUserViewModel.refreshState.observe(this, Observer {
+        mUserViewModel.refreshState.observe(viewLifecycleOwner) {
             swipe_refresh.isRefreshing = it == NetworkState.LOADING
             if (it != NetworkState.LOADING) {
                 showEmptyView(if (mUserViewModel.listIsEmpty()) View.VISIBLE else View.GONE)
             }
-        })
+        }
         swipe_refresh.setOnRefreshListener {
             mUserViewModel.refresh()
         }

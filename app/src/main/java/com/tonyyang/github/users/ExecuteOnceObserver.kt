@@ -1,7 +1,7 @@
 package com.tonyyang.github.users
 
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 
 class ExecuteOnceObserver<T>(val onExecuteOnceNext: (T) -> Unit = {},
                              val onExecuteOnceComplete: () -> Unit = {},
