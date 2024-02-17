@@ -1,6 +1,6 @@
 package com.tonyyang.github.users.repository
 
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import androidx.paging.Config
 import androidx.paging.toLiveData
 import com.tonyyang.github.users.api.GithubService
@@ -21,7 +21,7 @@ class UserPagedListRepository(private val apiService: GithubService) {
         )
         return Listing(
                 pagedList = livePagedList,
-                refreshState = Transformations.switchMap(sourceFactory.usersLiveData) {
+                refreshState = sourceFactory.usersLiveData.switchMap {
                     it.initialLoad
                 },
                 refresh = {

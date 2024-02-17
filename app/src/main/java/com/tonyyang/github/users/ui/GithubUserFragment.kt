@@ -8,14 +8,16 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.tonyyang.github.users.R
 import com.tonyyang.github.users.api.GithubService
+import com.tonyyang.github.users.databinding.FragmentGithubUserBinding
 import com.tonyyang.github.users.viewmodel.UserViewModel
 import com.tonyyang.github.users.repository.NetworkState
 import com.tonyyang.github.users.repository.UserPagedListRepository
-import kotlinx.android.synthetic.main.fragment_github_user.*
 
 class GithubUserFragment : Fragment() {
+
+    private var _binding: FragmentGithubUserBinding? = null
+    private val binding get() = _binding!!
 
     private val mGithubUserAdapter by lazy {
         GithubUserAdapter(activity as Context)
@@ -29,8 +31,13 @@ class GithubUserFragment : Fragment() {
         UserViewModel(mUserPagedListRepository)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_github_user, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentGithubUserBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,14 +48,14 @@ class GithubUserFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        rv_user_list.apply {
+        binding.rvUserList.apply {
             setHasFixedSize(true)
             adapter = mGithubUserAdapter
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(
-                    SeparatorDecoration.Builder(context)
-                            .setMargin(16F, 0F)
-                            .build()
+                SeparatorDecoration.Builder(context)
+                    .setMargin(16F, 0F)
+                    .build()
             )
         }
 
@@ -59,18 +66,18 @@ class GithubUserFragment : Fragment() {
 
     private fun initSwipeToRefresh() {
         mUserViewModel.refreshState.observe(viewLifecycleOwner) {
-            swipe_refresh.isRefreshing = it == NetworkState.LOADING
+            binding.swipeRefresh.isRefreshing = it == NetworkState.LOADING
             if (it != NetworkState.LOADING) {
                 showEmptyView(if (mUserViewModel.listIsEmpty()) View.VISIBLE else View.GONE)
             }
         }
-        swipe_refresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             mUserViewModel.refresh()
         }
     }
 
     private fun initSearch() {
-        et_keyword.setOnEditorActionListener { _, actionId, _ ->
+        binding.etKeyword.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 updatedGithubUsersFromInput()
             }
@@ -79,10 +86,10 @@ class GithubUserFragment : Fragment() {
     }
 
     private fun updatedGithubUsersFromInput() {
-        et_keyword.text.trim().toString().let {
+        binding.etKeyword.text.trim().toString().let {
             if (it.isNotEmpty()) {
                 if (mUserViewModel.showGithubUser(it)) {
-                    rv_user_list.scrollToPosition(0)
+                    binding.rvUserList.scrollToPosition(0)
                     mGithubUserAdapter.submitList(null)
                 }
             }
@@ -90,7 +97,7 @@ class GithubUserFragment : Fragment() {
     }
 
     private fun showEmptyView(visibility: Int) {
-        empty_view.visibility = visibility
+        binding.emptyView.root.visibility = visibility
     }
 
     companion object {

@@ -1,0 +1,42 @@
+[versions]
+core-ktx = "1.12.0"
+compile-sdk = "34"
+min-sdk = "24"
+target-sdk = "34"
+android-gradle-plugin = "8.2.2"
+org-jetbrains-kotlin-android = "1.9.22"
+androidx-appcompat = "1.6.1"
+androidx-constraintlayout = "2.1.4"
+androidx-swiperefreshlayout = "1.1.0"
+junit = "4.13.2"
+androidx-test-runner = "1.5.2"
+androidx-test-espresso = "3.5.1"
+material = "1.11.0"
+androidx-paging-runtime-ktx = "3.2.1"
+glide = "4.11.0"
+retrofit = "2.9.0"
+rxjava3-rxandroid = "3.0.0"
+rxjava3-rxjava = "3.0.9"
+de-hdodenhof-circleimageview = "3.0.0"
+
+[libraries]
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner" }
+androidx-test-espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-test-espresso" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "androidx-paging-runtime-ktx" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+retrofit2-adapter-rxjava3 = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }
+retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+rxjava3-rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxjava3-rxandroid" }
+rxjava3-rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava3-rxjava" }
+de-hdodenhof-circleimageview = { group = "de.hdodenhof", name = "circleimageview", version.ref = "de-hdodenhof-circleimageview" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
